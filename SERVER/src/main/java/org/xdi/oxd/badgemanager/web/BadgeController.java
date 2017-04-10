@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.xdi.oxd.badgemanager.global.Global;
 import org.xdi.oxd.badgemanager.ldap.service.GsonService;
+import org.xdi.oxd.badgemanager.model.IssuerBadgeRequest;
 import org.xdi.oxd.badgemanager.util.DisableSSLCertificateCheckUtil;
+import org.xdi.oxd.badgemanager.util.Utils;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,22 +24,27 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/badges")
 public class BadgeController  {
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
-    public static String HelloWorld(){
-        return "Hello World Finally!!!";
-    }
-
-    @RequestMapping(value = "listBadges/{id:.+}/{status:.+}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getBadgesByOrganization(@PathVariable String id, @PathVariable String status, HttpServletResponse response) {
+    @RequestMapping(value = "listBadges/{accessToken:.+}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getBadgesByOrganization(@PathVariable String accessToken, HttpServletResponse response) {
         JsonObject jsonResponse = new JsonObject();
 
         try {
 
-            final String uri = Global.API_ENDPOINT + Global.getBadgeByOrganization+"/"+id+"/"+status;
+            String[] split = accessToken.split("\\.");
+
+            String decodeTokenBody = Utils.decodeBase64url(split[1]);
+
+            JsonObject jsonObjectBody = new JsonParser().parse(decodeTokenBody).getAsJsonObject();
+
+            String issuer= jsonObjectBody.get("iss").getAsString();
+
+            IssuerBadgeRequest issuerBadgeRequest=new IssuerBadgeRequest(issuer);
+
+            final String uri = Global.API_ENDPOINT + Global.getBadgeByOrganization;
 
             DisableSSLCertificateCheckUtil.disableChecks();
             RestTemplate restTemplate = new RestTemplate();
-            String result = restTemplate.getForObject(uri, String.class);
+            String result = restTemplate.postForObject(uri, issuerBadgeRequest, String.class);
 
             JsonArray jArrayResponse = new JsonParser().parse(result).getAsJsonArray();
             if (jArrayResponse.size() > 0){

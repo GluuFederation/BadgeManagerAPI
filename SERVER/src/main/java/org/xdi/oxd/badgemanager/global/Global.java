@@ -9,5 +9,5 @@ public class Global {
 //    Local
 //    public static String API_ENDPOINT = "http://192.168.200.86:8000/";
     public static String getAllOrganizations = "getAllOrganizations";
-    public static String getBadgeByOrganization = "getBadgeByOrganization";
+    public static String getBadgeByOrganization = "getBadgeByIssuer";
 }
