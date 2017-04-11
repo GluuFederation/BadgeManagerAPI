@@ -16,30 +16,23 @@ public class BadgeRequests extends SimpleUser {
     @LdapAttribute(name = "inum")
     String inum;
 
-    @LdapAttribute(name = "gluuBadgeClassDN")
-    String gluuBadgeClassDN;
+//    @LdapAttribute(name = "gluuBadgeClassDN")
+//    String gluuBadgeClassDN;
 
-    @LdapAttribute(name = "description")
-    String description;
+    @LdapAttribute(name = "masterBadgeId")
+    String masterBadgeId;
 
-    @LdapAttribute(name = "gluuAssociatedOrganization")
+    @LdapAttribute(name = "organization")
     String organization;
 
-    @LdapAttribute(name = "gluuStatus")
-    boolean active = false;
+    @LdapAttribute(name = "status")
+    String status;
 
-    @LdapAttribute(name = "gluuBadgeRequestStatus")
-    boolean requestStatus;
+    //@LdapAttribute(name = "gluuBadgeRequestStatus")
+//    boolean requestStatus;
 
     @LdapAttribute(name = "gluuBadgeRequester")
     String gluuBadgeRequester;
-
-    Organizations gluuAssociatedOrganizationDetails = new Organizations();
-
-    Person gluuBadgeRequesterDetail = new Person();
-
-    Badges badgeDetails = new Badges();
-
 
     public BadgeRequests() {
     }
@@ -52,44 +45,12 @@ public class BadgeRequests extends SimpleUser {
         this.inum = inum;
     }
 
-    public String getGluuBadgeClassDN() {
-        return gluuBadgeClassDN;
-    }
-
-    public void setGluuBadgeClassDN(String gluuBadgeClassDN) {
-        this.gluuBadgeClassDN = gluuBadgeClassDN;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getOrganization() {
         return organization;
     }
 
     public void setOrganization(String organization) {
         this.organization = organization;
-    }
-
-    public boolean isRequestStatus() {
-        return requestStatus;
-    }
-
-    public void setRequestStatus(boolean requestStatus) {
-        this.requestStatus = requestStatus;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public String getGluuBadgeRequester() {
@@ -100,27 +61,19 @@ public class BadgeRequests extends SimpleUser {
         this.gluuBadgeRequester = gluuBadgeRequester;
     }
 
-    public Organizations getGluuAssociatedOrganizationDetails() {
-        return gluuAssociatedOrganizationDetails;
+    public String getMasterBadgeId() {
+        return masterBadgeId;
     }
 
-    public void setGluuAssociatedOrganizationDetails(Organizations gluuAssociatedOrganizationDetails) {
-        this.gluuAssociatedOrganizationDetails = gluuAssociatedOrganizationDetails;
+    public void setMasterBadgeId(String masterBadgeId) {
+        this.masterBadgeId = masterBadgeId;
     }
 
-    public Person getGluuBadgeRequesterDetail() {
-        return gluuBadgeRequesterDetail;
+    public String getStatus() {
+        return status;
     }
 
-    public void setGluuBadgeRequesterDetail(Person gluuBadgeRequesterDetail) {
-        this.gluuBadgeRequesterDetail = gluuBadgeRequesterDetail;
-    }
-
-    public Badges getBadgeDetails() {
-        return badgeDetails;
-    }
-
-    public void setBadgeDetails(Badges badgeDetails) {
-        this.badgeDetails = badgeDetails;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

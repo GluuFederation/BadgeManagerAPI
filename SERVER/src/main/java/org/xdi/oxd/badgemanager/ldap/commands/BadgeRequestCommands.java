@@ -26,19 +26,14 @@ public class BadgeRequestCommands {
         badgeRequest.setDn("inum=" + inum + ",ou=badgeRequests,ou=badges,o=" + DefaultConfig.config_organization + ",o=gluu");
         badgeRequest.setInum(inum);
 
-        if (!(ldapEntryManager.contains("ou=badgeRequests,ou=badges,o=" + DefaultConfig.config_organization + ",o=gluu", BadgeRequests.class, Filter.create("(inum=" + badgeRequest.getInum() + ")")))) {
-
-            if (!ldapEntryManager.contains("ou=badgeRequests,ou=badges,o=" + DefaultConfig.config_organization + ",o=gluu", BadgeRequests.class, Filter.create("(&(gluuBadgeRequester=" + badgeRequest.getGluuBadgeRequester() + ")(gluuBadgeClassDN=" + badgeRequest.getGluuBadgeClassDN() + "))"))) {
-                badgeRequest.setOrganization(BadgeCommands.findBadgefromDN(ldapEntryManager, badgeRequest.getGluuBadgeClassDN()).getGluuAssociatedOrganization());
-                badgeRequest.setBadgeDetails(BadgeCommands.findBadgefromDN(ldapEntryManager, badgeRequest.getGluuBadgeClassDN()));
-                badgeRequest.setActive(true);
-                badgeRequest.setRequestStatus(true);
+        if (!(ldapEntryManager.contains("ou=badgeRequests,ou=badges,o=gluu", BadgeRequests.class, Filter.create("(inum=" + badgeRequest.getInum() + ")")))) {
+            if (!ldapEntryManager.contains("ou=badgeRequests,ou=badges,o=gluu", BadgeRequests.class, Filter.create("(&(gluuBadgeRequester=" + badgeRequest.getGluuBadgeRequester() + "))"))) {
+                badgeRequest.setStatus("Pending");
                 ldapEntryManager.persist(badgeRequest);
                 System.out.println("new badge request created");
                 return badgeRequest;
             } else {
                 throw new Exception("You have already requested for same badge");
-
             }
         } else {
             createBadgeRequest(ldapEntryManager, badgeRequest);

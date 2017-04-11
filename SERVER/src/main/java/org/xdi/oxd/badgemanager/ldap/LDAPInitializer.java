@@ -62,7 +62,7 @@ public class LDAPInitializer {
 
         Properties properties = (Properties) configuration.getProperties().clone();
         if (ldapAuthConfig != null) {
-            properties.setProperty("servers", servers); //"localhost:1636");//buildServersString(ldapAuthConfig.getServers()));
+                properties.setProperty("servers", servers); //"localhost:1636");//buildServersString(ldapAuthConfig.getServers()));
 
             String bindDn = ldapAuthConfig.getBindDN();
             if (StringHelper.isNotEmpty(bindDn)) {

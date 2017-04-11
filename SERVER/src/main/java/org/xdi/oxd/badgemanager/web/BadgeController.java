@@ -1,6 +1,5 @@
 package org.xdi.oxd.badgemanager.web;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.swagger.annotations.Api;
@@ -24,21 +23,19 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/badges")
 public class BadgeController  {
 
-    @RequestMapping(value = "listBadges/{accessToken:.+}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getBadgesByOrganization(@PathVariable String accessToken, HttpServletResponse response) {
+    @RequestMapping(value = "listBadges/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getBadgesByOrganization(@RequestParam String accessToken, @RequestParam String type, HttpServletResponse response) {
         JsonObject jsonResponse = new JsonObject();
 
         try {
 
             String[] split = accessToken.split("\\.");
-
             String decodeTokenBody = Utils.decodeBase64url(split[1]);
 
             JsonObject jsonObjectBody = new JsonParser().parse(decodeTokenBody).getAsJsonObject();
-
             String issuer= jsonObjectBody.get("iss").getAsString();
 
-            IssuerBadgeRequest issuerBadgeRequest=new IssuerBadgeRequest(issuer);
+            IssuerBadgeRequest issuerBadgeRequest = new IssuerBadgeRequest(issuer,type);
 
             final String uri = Global.API_ENDPOINT + Global.getBadgeByOrganization;
 
@@ -46,10 +43,10 @@ public class BadgeController  {
             RestTemplate restTemplate = new RestTemplate();
             String result = restTemplate.postForObject(uri, issuerBadgeRequest, String.class);
 
-            JsonArray jArrayResponse = new JsonParser().parse(result).getAsJsonArray();
-            if (jArrayResponse.size() > 0){
+            JsonObject jObjResponse = new JsonParser().parse(result).getAsJsonObject();
+            if (jObjResponse != null){
                 response.setStatus(HttpServletResponse.SC_OK);
-                jsonResponse.add("badges", GsonService.getGson().toJsonTree(jArrayResponse));
+                jsonResponse.add("badges", GsonService.getGson().toJsonTree(jObjResponse));
                 jsonResponse.addProperty("error", false);
                 return jsonResponse.toString();
             } else {
