@@ -4,7 +4,10 @@ import com.unboundid.ldap.sdk.Filter;
 import org.gluu.site.ldap.persistence.LdapEntryManager;
 import org.xdi.oxd.badgemanager.config.DefaultConfig;
 import org.xdi.oxd.badgemanager.ldap.models.BadgeRequests;
+import org.xdi.oxd.badgemanager.ldap.models.Badges;
 import org.xdi.oxd.badgemanager.ldap.service.InumService;
+
+import java.util.List;
 
 /**
  * Created by Arvind Tomar on 14/10/16.
@@ -40,6 +43,22 @@ public class BadgeRequestCommands {
         }
 
         throw new Exception("There was problem creating a badge request");
+    }
+
+    /**
+     * Get pending badge request according to organization
+     *
+     * @param ldapEntryManager ldapEntryManager
+     * @param id         pass Organization id
+     * @param status     pass status
+     * @return
+     */
+    public static List<BadgeRequests> getPendingBadgeRequests(LdapEntryManager ldapEntryManager, String id, String status) throws Exception {
+
+        BadgeRequests badgeRequest = new BadgeRequests();
+        badgeRequest.setDn("ou=badgeRequests, ou=badges,o=" + DefaultConfig.config_organization + ",o=gluu");
+
+        return (ldapEntryManager.findEntries(badgeRequest.getDn(), BadgeRequests.class, Filter.create("(&(organization=" + id + ")(status=" + status + "))")));
     }
 
     /**

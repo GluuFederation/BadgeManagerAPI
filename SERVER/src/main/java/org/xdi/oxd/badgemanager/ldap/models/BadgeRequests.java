@@ -16,20 +16,17 @@ public class BadgeRequests extends SimpleUser {
     @LdapAttribute(name = "inum")
     String inum;
 
-//    @LdapAttribute(name = "gluuBadgeClassDN")
-//    String gluuBadgeClassDN;
-
     @LdapAttribute(name = "masterBadgeId")
     String masterBadgeId;
+
+    @LdapAttribute(name = "masterBadgeTitle")
+    String masterBadgeTitle;
 
     @LdapAttribute(name = "organization")
     String organization;
 
     @LdapAttribute(name = "status")
     String status;
-
-    //@LdapAttribute(name = "gluuBadgeRequestStatus")
-//    boolean requestStatus;
 
     @LdapAttribute(name = "gluuBadgeRequester")
     String gluuBadgeRequester;
@@ -75,5 +72,13 @@ public class BadgeRequests extends SimpleUser {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getMasterBadgeTitle() {
+        return masterBadgeTitle;
+    }
+
+    public void setMasterBadgeTitle(String masterBadgeTitle) {
+        this.masterBadgeTitle = masterBadgeTitle;
     }
 }
