@@ -1,7 +1,7 @@
 package org.xdi.oxd.badgemanager.ldap.models;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.gluu.site.ldap.persistence.annotation.LdapAttribute;
+import org.gluu.site.ldap.persistence.annotation.LdapDN;
 import org.gluu.site.ldap.persistence.annotation.LdapEntry;
 import org.gluu.site.ldap.persistence.annotation.LdapObjectClass;
 
@@ -14,63 +14,39 @@ import java.util.Date;
 
 @LdapEntry
 @LdapObjectClass(values = {"top", "gluuBadgeInstance"})
-public class BadgeInstances extends SimpleUser {
+public class BadgeInstances {
 
-    @LdapAttribute(name = "gluuBadgeClassDN")
-    String gluuBadgeClassDN;
+    @LdapDN
+    private String dn;
+
+    @LdapAttribute(name = "type")
+    String type;
+
+    @LdapAttribute(name = "id")
+    String id;
+
+    @LdapAttribute(name = "name")
+    String name;
 
     @LdapAttribute(name = "description")
     String description;
 
-    @LdapAttribute(name = "gluuBadgeHash")
-    String gluuBadgeHash;
-
-    @LdapAttribute(name = "gluuBadgeIssueDate")
-    Date gluuBadgeIssueDate;
+    @LdapAttribute(name = "image")
+    String image;
 
     @LdapAttribute(name = "inum")
     String inum;
 
-    @LdapAttribute(name = "gluuBadgeIssuer")
-    String gluuBadgeIssuer;
-
-    @LdapAttribute(name = "gluuBadgeInstanceOwner")
-    String gluuBadgeInstanceOwner;
-
-    @LdapAttribute(name = "gluuAssociatedOrganization")
-    String organization;
-
-    @LdapAttribute(name = "gluuBadgeExpiryDate")
-    Date gluuBadgeExpiryDate;
-
     @LdapAttribute(name = "creationDate")
     Date creationDate = new Date();
 
-    @LdapAttribute(name = "gluuStatus")
-    boolean active = true;
+    @LdapAttribute(name = "qrCode")
+    String qrCode;
 
-    @LdapAttribute(name = "owner")
-
-    String owner;
-
-
-    Organizations gluuAssociatedOrganizationDetail = null;
-
-    Person gluuBadgeIssuerDetial = null;
-
-    Person ownerDetails = null;
-
-    Badges badgeDetails = null;
+    @LdapAttribute(name = "templateBadgeId")
+    String templateBadgeId;
 
     public BadgeInstances() {
-    }
-
-    public String getGluuBadgeClassDN() {
-        return gluuBadgeClassDN;
-    }
-
-    public void setGluuBadgeClassDN(String gluuBadgeClassDN) {
-        this.gluuBadgeClassDN = gluuBadgeClassDN;
     }
 
     public String getDescription() {
@@ -81,14 +57,6 @@ public class BadgeInstances extends SimpleUser {
         this.description = description;
     }
 
-    public Date getGluuBadgeIssueDate() {
-        return gluuBadgeIssueDate;
-    }
-
-    public void setGluuBadgeIssueDate(Date gluuBadgeIssueDate) {
-        this.gluuBadgeIssueDate = gluuBadgeIssueDate;
-    }
-
     public String getInum() {
         return inum;
     }
@@ -97,103 +65,67 @@ public class BadgeInstances extends SimpleUser {
         this.inum = inum;
     }
 
-    public String getGluuBadgeIssuer() {
-        return gluuBadgeIssuer;
-    }
-
-    public void setGluuBadgeIssuer(String gluuBadgeIssuer) {
-        this.gluuBadgeIssuer = gluuBadgeIssuer;
-    }
-
-    public String getGluuBadgeInstanceOwner() {
-        return gluuBadgeInstanceOwner;
-    }
-
-    public void setGluuBadgeInstanceOwner(String gluuBadgeInstanceOwner) {
-        this.gluuBadgeInstanceOwner = gluuBadgeInstanceOwner;
-    }
-
-    public String getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(String organization) {
-        this.organization = organization;
-    }
-
-    public Date getGluuBadgeExpiryDate() {
-        return gluuBadgeExpiryDate;
-    }
-
-    public void setGluuBadgeExpiryDate(Date gluuBadgeExpiryDate) {
-        this.gluuBadgeExpiryDate = gluuBadgeExpiryDate;
-    }
-
     public Date getCreationDate() {
         return creationDate;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public String isOwner() {
-        return owner;
-    }
-
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getGluuBadgeHash() {
-        return gluuBadgeHash;
-    }
-
-    public void setGluuBadgeHash(String gluuBadgeHash) {
-        this.gluuBadgeHash = DigestUtils.md5Hex(gluuBadgeHash);
     }
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getDn() {
+        return dn;
     }
 
-    public Organizations getGluuAssociatedOrganizationDetail() {
-        return gluuAssociatedOrganizationDetail;
+    public void setDn(String dn) {
+        this.dn = dn;
     }
 
-    public void setGluuAssociatedOrganizationDetail(Organizations gluuAssociatedOrganizationDetail) {
-        this.gluuAssociatedOrganizationDetail = gluuAssociatedOrganizationDetail;
+    public String getType() {
+        return type;
     }
 
-    public Person getGluuBadgeIssuerDetial() {
-        return gluuBadgeIssuerDetial;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public void setGluuBadgeIssuerDetial(Person gluuBadgeIssuerDetial) {
-        this.gluuBadgeIssuerDetial = gluuBadgeIssuerDetial;
+    public String getId() {
+        return id;
     }
 
-    public Person getOwnerDetails() {
-        return ownerDetails;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public void setOwnerDetails(Person ownerDetails) {
-        this.ownerDetails = ownerDetails;
+    public String getName() {
+        return name;
     }
 
-    public Badges getBadgeDetails() {
-        return badgeDetails;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setBadgeDetails(Badges badgeDetails) {
-        this.badgeDetails = badgeDetails;
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
+    }
+
+    public String getTemplateBadgeId() {
+        return templateBadgeId;
+    }
+
+    public void setTemplateBadgeId(String templateBadgeId) {
+        this.templateBadgeId = templateBadgeId;
     }
 }

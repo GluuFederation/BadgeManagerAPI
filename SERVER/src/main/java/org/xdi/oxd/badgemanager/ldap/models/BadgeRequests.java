@@ -1,6 +1,7 @@
 package org.xdi.oxd.badgemanager.ldap.models;
 
 import org.gluu.site.ldap.persistence.annotation.LdapAttribute;
+import org.gluu.site.ldap.persistence.annotation.LdapDN;
 import org.gluu.site.ldap.persistence.annotation.LdapEntry;
 import org.gluu.site.ldap.persistence.annotation.LdapObjectClass;
 
@@ -11,25 +12,28 @@ import org.gluu.site.ldap.persistence.annotation.LdapObjectClass;
 
 @LdapEntry
 @LdapObjectClass(values = {"top", "gluuBadgeRequest"})
-public class BadgeRequests extends SimpleUser {
+public class BadgeRequests {
+
+    @LdapDN
+    private String dn;
 
     @LdapAttribute(name = "inum")
-    String inum;
+    private String inum;
 
     @LdapAttribute(name = "masterBadgeId")
-    String masterBadgeId;
+    private String templateBadgeId;
 
     @LdapAttribute(name = "masterBadgeTitle")
-    String masterBadgeTitle;
+    private String templateBadgeTitle;
 
     @LdapAttribute(name = "organization")
-    String organization;
+    private String participant;
 
     @LdapAttribute(name = "status")
-    String status;
+    private String status;
 
     @LdapAttribute(name = "gluuBadgeRequester")
-    String gluuBadgeRequester;
+    private String gluuBadgeRequester;
 
     public BadgeRequests() {
     }
@@ -42,12 +46,12 @@ public class BadgeRequests extends SimpleUser {
         this.inum = inum;
     }
 
-    public String getOrganization() {
-        return organization;
+    public String getParticipant() {
+        return participant;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setParticipant(String participant) {
+        this.participant = participant;
     }
 
     public String getGluuBadgeRequester() {
@@ -58,12 +62,12 @@ public class BadgeRequests extends SimpleUser {
         this.gluuBadgeRequester = gluuBadgeRequester;
     }
 
-    public String getMasterBadgeId() {
-        return masterBadgeId;
+    public String getTemplateBadgeId() {
+        return templateBadgeId;
     }
 
-    public void setMasterBadgeId(String masterBadgeId) {
-        this.masterBadgeId = masterBadgeId;
+    public void setTemplateBadgeId(String templateBadgeId) {
+        this.templateBadgeId = templateBadgeId;
     }
 
     public String getStatus() {
@@ -74,11 +78,19 @@ public class BadgeRequests extends SimpleUser {
         this.status = status;
     }
 
-    public String getMasterBadgeTitle() {
-        return masterBadgeTitle;
+    public String getTemplateBadgeTitle() {
+        return templateBadgeTitle;
     }
 
-    public void setMasterBadgeTitle(String masterBadgeTitle) {
-        this.masterBadgeTitle = masterBadgeTitle;
+    public void setTemplateBadgeTitle(String templateBadgeTitle) {
+        this.templateBadgeTitle = templateBadgeTitle;
+    }
+
+    public String getDn() {
+        return dn;
+    }
+
+    public void setDn(String dn) {
+        this.dn = dn;
     }
 }

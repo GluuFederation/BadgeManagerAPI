@@ -16,14 +16,9 @@ public class ServerCommands {
     public static String getRootOrgranizationInum(LdapEntryManager ldapEntryManager) throws Exception {
 
         List<Organizations> organizations = ldapEntryManager.findEntries("o=gluu", Organizations.class, null, SearchScope.BASE);
-//        if (organizations != null && organizations.size() > 0) {
-//            return organizations.get(0).getO();
-//
-//        } else {
-//            throw new Exception("Organization inum not found");
-//        }
         for (Organizations o : organizations) {
             if (o.getO() != null) {
+                System.out.print("Root Organization found");
                 return o.getO();
             }
         }

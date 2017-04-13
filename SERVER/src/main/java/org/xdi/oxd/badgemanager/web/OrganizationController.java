@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/organizations")
 public class OrganizationController  {
 
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    //@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getOrganizations(HttpServletResponse response) {
         JsonObject jsonResponse = new JsonObject();
 
