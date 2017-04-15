@@ -54,15 +54,11 @@ public class LDAPInitializer {
         if (ldapEntryManager.authenticate(userName, bindPassword)) {
             System.out.println("Connection Success");
             try {
-                if(DefaultConfig.config_organization != null){
-                    System.out.println("Organization dn configured properly in LDAP");
+                DefaultConfig.config_organization = ServerCommands.getRootOrgranizationInum(ldapEntryManager);
+                if (DefaultConfig.config_organization == null || DefaultConfig.config_organization.equals("")) {
+                    System.out.println("Can't find organization dn configured properly in LDAP");
                 } else {
-                    DefaultConfig.config_organization = ServerCommands.getRootOrgranizationInum(ldapEntryManager);
-                    if (DefaultConfig.config_organization == null || DefaultConfig.config_organization.equals("")) {
-                        System.out.println("Can't find organization dn configured properly in LDAP");
-                    } else {
-                        System.out.println("Organization dn configured properly in LDAP");
-                    }
+                    System.out.println("Organization dn configured properly in LDAP");
                 }
             } catch (Exception e) {
                 e.printStackTrace();

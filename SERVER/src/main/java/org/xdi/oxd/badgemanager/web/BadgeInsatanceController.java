@@ -28,28 +28,28 @@ public class BadgeInsatanceController  {
     LdapEntryManager ldapEntryManager;
 
     //@RequestMapping(value = "/{id:.+}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String updateBadgeInstance(@PathVariable String id, @RequestBody BadgeInstances badges, HttpServletResponse response) {
-
-        JsonObject jsonResponse = new JsonObject();
-        badges.setInum(id);
-        if (isConnected) {
-            try {
-                BadgeInstancesCommands.updateBadge(ldapEntryManager, badges);
-                jsonResponse.addProperty("success", "Badge instance updated successfully");
-                return jsonResponse.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                jsonResponse.addProperty("error", e.getMessage());
-                return jsonResponse.toString();
-            }
-
-        } else {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            jsonResponse.addProperty("error", "Please try after some time");
-            return jsonResponse.toString();
-        }
-    }
+//    public String updateBadgeInstance(@PathVariable String id, @RequestBody BadgeInstances badges, HttpServletResponse response) {
+//
+//        JsonObject jsonResponse = new JsonObject();
+//        badges.setInum(id);
+//        if (isConnected) {
+//            try {
+//                BadgeInstancesCommands.updateBadge(ldapEntryManager, badges);
+//                jsonResponse.addProperty("success", "Badge instance updated successfully");
+//                return jsonResponse.toString();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+//                jsonResponse.addProperty("error", e.getMessage());
+//                return jsonResponse.toString();
+//            }
+//
+//        } else {
+//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+//            jsonResponse.addProperty("error", "Please try after some time");
+//            return jsonResponse.toString();
+//        }
+//    }
 
 //    @RequestMapping(value = "/{inum:.+}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String getBadgeInstanceByInum(@PathVariable String inum, HttpServletResponse response) {

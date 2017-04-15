@@ -22,9 +22,6 @@ public class BadgeInstances {
     @LdapAttribute(name = "type")
     String type;
 
-    @LdapAttribute(name = "id")
-    String id;
-
     @LdapAttribute(name = "name")
     String name;
 
@@ -40,11 +37,11 @@ public class BadgeInstances {
     @LdapAttribute(name = "creationDate")
     Date creationDate = new Date();
 
-    @LdapAttribute(name = "qrCode")
-    String qrCode;
-
     @LdapAttribute(name = "templateBadgeId")
     String templateBadgeId;
+
+    @LdapAttribute(name = "badgeRequestInum")
+    String badgeRequestInum;
 
     public BadgeInstances() {
     }
@@ -89,14 +86,6 @@ public class BadgeInstances {
         this.type = type;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -113,19 +102,19 @@ public class BadgeInstances {
         this.image = image;
     }
 
-    public String getQrCode() {
-        return qrCode;
-    }
-
-    public void setQrCode(String qrCode) {
-        this.qrCode = qrCode;
-    }
-
     public String getTemplateBadgeId() {
         return templateBadgeId;
     }
 
     public void setTemplateBadgeId(String templateBadgeId) {
         this.templateBadgeId = templateBadgeId;
+    }
+
+    public String getBadgeRequestInum() {
+        return badgeRequestInum;
+    }
+
+    public void setBadgeRequestInum(String badgeRequestInum) {
+        this.badgeRequestInum = badgeRequestInum;
     }
 }

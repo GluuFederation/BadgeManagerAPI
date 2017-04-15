@@ -22,25 +22,26 @@ public class BadgeInstancesCommands {
      * @param ldapEntryManager ldapEntryManager instance
      * @param badges           badge class object
      */
-    public static BadgeInstances createNewBadgeInstances(LdapEntryManager ldapEntryManager, BadgeInstances badges) throws Exception {
+    public static boolean createNewBadgeInstances(LdapEntryManager ldapEntryManager, BadgeInstances badges) throws Exception {
 
         try {
             String inum = InumService.getInum(InumService.badgeInstancePrefix);
-
-            badges.setDn("inum=" + inum + ",ou=badges,ou=people,o=" + DefaultConfig.config_organization + ",o=gluu");
+            badges.setDn("inum=" + inum + ",ou=badgeInstances,ou=badges,o=" + DefaultConfig.config_organization + ",o=gluu");
             badges.setInum(inum);
+
             if (!(ldapEntryManager.contains(badges.getDn(), BadgeInstances.class, Filter.create("(inum=" + badges.getInum() + ")")))) {
                 ldapEntryManager.persist(badges);
-                System.out.println("new badge instance entry ");
-                return badges;
+                System.out.println("New badge instance entry");
+                return true;
             } else {
                 createNewBadgeInstances(ldapEntryManager, badges);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            throw new NotFoundException("There was error issuing a badge");
+            System.out.println("Exception in badge instance entry: " + e.getMessage());
+            throw new Exception("There was error creating badge instance");
         }
-        throw new NotFoundException("There was error issuing a badge");
+        throw new Exception("There was error issuing a badge");
     }
 
     /**
@@ -49,14 +50,13 @@ public class BadgeInstancesCommands {
      * @param ldapEntryManager
      * @param badges
      * @return
-     */
     public static boolean updateBadge(LdapEntryManager ldapEntryManager, BadgeInstances badges) throws Exception {
         try {
             String inum = DefaultConfig.config_organization + INumGenerator.generate(2);
             badges.setDn("inum=" + inum + ",ou=badges,ou=people,o=" + DefaultConfig.config_organization + ",o=gluu");
             badges.setInum(inum);
             if (ldapEntryManager.contains(badges.getDn(), BadgeInstances.class, Filter.create("(inum=" + badges.getInum() + ")"))) {
-                MergeService.merge(badges,ldapEntryManager.findEntries(badges.getDn(), BadgeInstances.class, Filter.create("(inum=" + badges.getInum() + ")")).get(0));
+                MergeService.merge(badges, ldapEntryManager.findEntries(badges.getDn(), BadgeInstances.class, Filter.create("(inum=" + badges.getInum() + ")")).get(0));
                 ldapEntryManager.merge(badges);
                 System.out.println("updated entry ");
                 return true;
@@ -86,12 +86,10 @@ public class BadgeInstancesCommands {
                 System.out.println("Deleted entry ");
                 return true;
             } else {
-
                 return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
-
             return false;
         }
     }
@@ -113,7 +111,6 @@ public class BadgeInstancesCommands {
                 System.out.println("Deleted entry ");
                 return true;
             } else {
-
                 return false;
             }
         } catch (Exception e) {

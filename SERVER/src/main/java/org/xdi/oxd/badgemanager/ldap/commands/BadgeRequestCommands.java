@@ -8,6 +8,7 @@ import org.xdi.oxd.badgemanager.ldap.models.Badges;
 import org.xdi.oxd.badgemanager.ldap.service.InumService;
 import org.xdi.oxd.badgemanager.ldap.service.MergeService;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -30,6 +31,7 @@ public class BadgeRequestCommands {
         badgeRequest.setDn("inum=" + inum + ",ou=badgeRequests,ou=badges,o=" + DefaultConfig.config_organization + ",o=gluu");
         badgeRequest.setInum(inum);
         badgeRequest.setStatus("Pending");
+        badgeRequest.setCreationDate(new Date());
 
         //static(need to remove once implemented)
 //        return badgeRequest;
@@ -95,21 +97,20 @@ public class BadgeRequestCommands {
      * Update badge request by Inum
      *
      * @param ldapEntryManager ldapEntryManager
-     * @param inum             inum of the badge request to be updated
+     * @param badgeRequest badge request to be updated
      * @return
      */
-    public static boolean updateBadgeRequestByInum(LdapEntryManager ldapEntryManager, String inum) {
+    public static boolean updateBadgeRequest(LdapEntryManager ldapEntryManager, BadgeRequests badgeRequest) {
         try {
-            BadgeRequests badgeRequest = new BadgeRequests();
-            badgeRequest.setDn("inum=" + inum + ",ou=badgeRequests,ou=badges,o=" + DefaultConfig.config_organization + ",o=gluu");
-            badgeRequest.setInum(inum);
-            badgeRequest.setStatus("Approved");
+            badgeRequest.setUpdatedAt(new Date());
+            badgeRequest.setDn("inum=" + badgeRequest.getInum() + ",ou=badgeRequests,ou=badges,o=" + DefaultConfig.config_organization + ",o=gluu");
             if (ldapEntryManager.contains(badgeRequest.getDn(), BadgeRequests.class, Filter.create("(inum=" + badgeRequest.getInum() + ")"))) {
                 MergeService.merge(badgeRequest, ldapEntryManager.findEntries(badgeRequest.getDn(), BadgeRequests.class, Filter.create("(inum=" + badgeRequest.getInum() + ")")).get(0));
                 ldapEntryManager.merge(badgeRequest);
                 System.out.println("Badge request updated successfully");
                 return true;
             } else {
+                System.out.println("Badge request not found");
                 return false;
             }
         } catch (Exception e) {
